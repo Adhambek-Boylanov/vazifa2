@@ -1,0 +1,86 @@
+# Python cache va bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+ENV/
+
+# Django specific
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+*.sqlite
+db.sqlite3
+media/
+staticfiles/
+
+# Environment variables (maxfiy fayllar)
+.env
+.env.*
+*.env.local
+
+# IDE / Editor config fayllari
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS fayllari
+.DS_Store
+Thumbs.db
+
+# Migrations cache (ba’zida saqlanadi, ammo ko‘pchilik ignore qiladi)
+*/migrations/__pycache__/
+# Agar migrationlarni Git’da saqlamoqchi bo‘lsangiz, bu qatorni o‘chirib tashlang:
+# */migrations/
+
+# Node.js (agar frontend bo‘lsa)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker va compose cache
+*.pid
+*.seed
+*.pid.lock
+docker-compose.override.yml
+
+# Redis / Celery / RabbitMQ uchun log fayllar
+celerybeat-schedule
+celerybeat.pid
+*.log
+*.out
+
+# Test natijalari
+.coverage
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Pytest
+.cache/
+
+# Build / dist / package
+build/
+dist/
+.eggs/
+*.egg-info/
+MANIFEST
+
+# mypy / pylint / lint
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+pylint-report.txt
