@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.content }}</p>
+  <hr>
+
+  <h4>💬 Comments</h4>
+  <div id="comments-box"></div>
+
+  {% if user.is_authenticated %}
+    <form id="comment-form">
+      <textarea id="comment-input" class="form-control" rows="3" placeholder="Write a comment..."></textarea>
+      <button type="submit" class="btn btn-primary mt-2">Send</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'login' %}">Login</a> to comment</p>
+  {% endif %}
+</div>
+
+<script>
+  const postId = "{{ post.id }}";
+  const wsUrl = `ws://${window.location.host}/ws/comments/${postId}/`;
+  const chatSocket = new WebSocket(wsUrl);
+
+  const commentBox = document.getElementById('comments-box');
+  const form = document.getElementById('comment-form');
+  const input = document.getElementById('comment-input');
+
+  chatSocket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    const p = document.createElement('p');
+    p.textContent = data.comment;
+    commentBox.appendChild(p);
+  };
+
+  form?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const comment = input.value.trim();
+    if (comment) {
+      chatSocket.send(JSON.stringify({ 'comment': comment }));
+      input.value = '';
+    }
+  });
+</script>
+
+{% endblock %}

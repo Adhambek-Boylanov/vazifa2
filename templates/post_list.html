@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📰 Yangi postlar</h2>
+    <a href="{% url 'post_create' %}" class="btn btn-success btn-sm">➕ Post qo‘shish</a>
+  </div>
+
+  <!-- 🔍 Qidiruv formasi -->
+  <form method="get" class="mb-4 d-flex">
+    <input
+      type="text"
+      name="q"
+      class="form-control me-2"
+      placeholder="Postlardan qidirish..."
+      value="{{ request.GET.q }}"
+    >
+    <button class="btn btn-outline-primary" type="submit">Qidirish</button>
+  </form>
+
+  {% for post in posts %}
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h4>{{ post.title }}</h4>
+        <p>{{ post.content|truncatewords:25 }}</p>
+
+        <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary btn-sm">Batafsil</a>
+      </div>
+    </div>
+  {% empty %}
+    <p>Hozircha postlar yo‘q 😔</p>
+  {% endfor %}
+
+  <!-- PAGINATION -->
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center mt-4">
+      {% if posts.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Oldingi</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Oldingi</span></li>
+      {% endif %}
+
+      {% for num in posts.paginator.page_range %}
+        {% if posts.number == num %}
+          <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+              {{ num }}
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if posts.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Keyingi</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Keyingi</span></li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+{% endblock %}
