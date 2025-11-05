@@ -69,4 +69,5 @@ def register_view(request):
 
 
 
-
+# python -m uvicorn config.asgi:application --reload
+# docker run -p 6380:6379 redis
